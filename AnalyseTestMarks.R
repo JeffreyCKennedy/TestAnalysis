@@ -7,9 +7,10 @@
 
 library(psych)
 library(ggplot2)
-# testMarks <- read.table("C:/Users/jckenned/Documents/Teaching/2015_114326 HR/Class List/Test_326_for_R_Analysis.csv", header=TRUE, row.names="ID", sep=",")
-#testMarks <- read.table("C:/Users/jckenned/Documents/Teaching/2016_114240 OB/Class List/Grades-114240_1601_ALBN_I-Test-1637554-20160511_2251-comma_separated.csv", header=TRUE, row.names="ID.number", sep=",")
-essayMarks <- read.table("C:/Users/jckenned/Documents/Teaching/2016_114240 OB/Class List/Grades-114240_1601_ALBN_I-Essay-1637400-20160609_0236-comma_separated.csv", header=TRUE, row.names="ID.number", sep=",")
+path <- "C:/Users/jckenned/Documents/Teaching/Completed Courses/2016_114240 OB/Class List/Grades-114240_1601_ALBN_I-Test-1637554-20160511_2251-comma_separated.csv"
+path <- "C:/Users/jckenned/Documents/Teaching/2016_114326 HR/Class List/Grades-114326_1602_ALBN_I-Assessment 2 - Essay-1678290-20161009_2021-comma_separated.csv"
+testMarks <- read.table(path, header=TRUE, row.names="ID.number", sep=",")
+essayMarks <- read.table(path, header=TRUE, sep=",")
 essayMarks[essayMarks==0] <- NA # Convert 0 marks to NA
 psych::describe(essayMarks$Grade)
 hist(essayMarks$Grade, 8)
