@@ -1,3 +1,10 @@
+# Contains several chunks of syntax. First is for describing and plotting scores
+# on tests and essays. The next two involve combining different spreadsheets 
+# to get a single file of marks.
+
+
+#########################################################
+
 library(psych)
 library(ggplot2)
 # testMarks <- read.table("C:/Users/jckenned/Documents/Teaching/2015_114326 HR/Class List/Test_326_for_R_Analysis.csv", header=TRUE, row.names="ID", sep=",")
@@ -24,4 +31,38 @@ psych::describe(testMarks$Out.of.25)
 barplot(testMarks$Out.of.25)
 hist(testMarks$Out.of.25, 8)
 
-# Additional line added to test git
+#########################################################
+
+# I used an early list of names to note who had submitted essay. List included people
+# who didn't continue in paper, and left out late enrollees. I added late enrollees to my list.
+# Downloaded marking spreadsheet from Stream, which has a field for full names but not surname
+# and forename. So this script uses student id to combine the two spreadsheets (in csv format).
+# Before combining, I renamed the ID variable in Stream download to 'stud_code' to match list from RPS.
+
+library(dplyr)
+Roll <- read.table("C:/Users/jckenned/Documents/Teaching/2016_114240 OB/Submission - Essays/CurrentRoll.csv", header=TRUE, sep=",")
+Submissions  <- read.table("C:/Users/jckenned/Documents/Teaching/2016_114240 OB/Submission - Essays/essaysubmissions.csv", header=TRUE, sep=",")
+# head(Roll)
+# head(Submissions)
+OnTimeSubmissions <- dplyr::left_join(Roll, Submissions, by = "stud_code")
+View(Roll)
+View(OnTimeSubmissions)
+write.table(OnTimeSubmissions, file = "C:/Users/jckenned/Documents/Teaching/2016_114240 OB/Submission - Essays/OnTimeSubmissions.csv", col.names=TRUE, row.names=FALSE, sep=",")
+# ?write.table
+
+#########################################################
+
+# Before entering case mark for groups, I wanted to check overall marks distribution, boundary cases etc.
+# I downloaded the gradebook from Stream, which had test and essay marks already in.
+# I then used my N++ txt doc which had group members and names to copy into excel to create a csv file 
+# containing ID, names, group number, and mark. This syntax will combine the sheets so I can
+# look at final distribution etc. Then I can sort, and copy and paste case mark into a downloaded mark
+# sheet from Stream for the Case assignment.
+library(dplyr)
+GradeBook <- read.table("C:/Users/jckenned/Documents/Teaching/2016_152761 IB/Class List/152761_1601_ALBN_I Grades.csv", header=TRUE, sep=",")
+CaseMark  <- read.table("C:/Users/jckenned/Documents/Teaching/2016_152761 IB/Class List/20160617 Internal Case marks.csv", header=TRUE, sep=",")
+head(GradeBook)
+head(CaseMark)
+AllGrades <- dplyr::left_join(GradeBook, CaseMark, by = "ID")
+head(AllGrades)
+write.table(AllGrades, file = "C:/Users/jckenned/Documents/Teaching/2016_152761 IB/Class List/20160617 Internal All Marks.csv", col.names=TRUE, row.names=FALSE, sep=",")
