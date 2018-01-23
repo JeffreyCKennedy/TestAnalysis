@@ -2,7 +2,9 @@
 title: "Playing with Rmd"
 author: "Jeff Kennedy"
 date: "23 January 2018"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
